@@ -26,6 +26,7 @@ pub mod rpu_info;
 pub mod rpu_injector;
 
 mod general_read_write;
+mod hdr10plus_extractor;
 mod hdr10plus_utils;
 
 #[derive(Debug, Clone)]

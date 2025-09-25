@@ -60,6 +60,9 @@ pub enum ExportData {
     Scenes,
     /// Exports the video's L5 metadata in the form of an `editor` config JSON
     Level5,
+    /// Exports HDR10+ metadata as a JSON file
+    #[value(name = "hdr10-plus")]
+    Hdr10Plus,
 }
 
 impl ExportData {
@@ -68,6 +71,7 @@ impl ExportData {
             ExportData::All => "RPU_export.json",
             ExportData::Scenes => "RPU_scenes.txt",
             ExportData::Level5 => "RPU_L5_edit_config.json",
+            ExportData::Hdr10Plus => "hdr10plus_metadata.json",
         }
     }
 }
