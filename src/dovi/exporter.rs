@@ -14,7 +14,7 @@ use dolby_vision::rpu::utils::parse_rpu_file;
 use serde_json::json;
 
 use crate::commands::{ExportArgs, ExportData};
-use crate::dovi::input_from_either;
+use crate::dovi::{input_from_either, hdr10plus_extractor::Hdr10PlusExtractor};
 
 use super::DoviRpu;
 
@@ -101,6 +101,9 @@ impl Exporter {
                 ExportData::Level5 => {
                     self.export_level5_config(rpus, &mut writer)?;
                 }
+                ExportData::Hdr10Plus => {
+                    self.export_hdr10plus_metadata(rpus, &mut writer)?;
+                }
             }
 
             writer.flush()?;
@@ -179,6 +182,17 @@ impl Exporter {
         });
         serde_json::to_writer_pretty(writer, &edit_config)?;
 
+        Ok(())
+    }
+    
+    fn export_hdr10plus_metadata<W: Write>(&self, rpus: &[DoviRpu], writer: &mut W) -> Result<()> {
+        println!("Exporting HDR10+ metadata...");
+        
+        let extractor = Hdr10PlusExtractor::new(rpus.to_vec());
+        let hdr10plus_metadata = extractor.extract_to_json()?;
+        
+        serde_json::to_writer_pretty(writer, &hdr10plus_metadata)?;
+        
         Ok(())
     }
 }
