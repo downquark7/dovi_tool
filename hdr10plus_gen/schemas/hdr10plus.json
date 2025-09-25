@@ -1,0 +1,190 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HDR10+ Dynamic Metadata Schema",
+  "description": "Schema for HDR10+ dynamic metadata conforming to SMPTE ST 2094-40",
+  "type": "object",
+  "required": [
+    "version",
+    "targeted_system_display_maximum_luminance",
+    "targeted_system_display_actual_peak_luminance_flag",
+    "num_bezier_curve_anchors",
+    "knee_point_x",
+    "knee_point_y",
+    "bezier_curve_anchors",
+    "mastering_display_actual_peak_luminance_flag",
+    "max_content_light_level",
+    "max_frame_average_light_level"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "HDR10+ metadata version",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "targeted_system_display_maximum_luminance": {
+      "type": "integer",
+      "description": "Targeted system display maximum luminance in nits",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "targeted_system_display_actual_peak_luminance_flag": {
+      "type": "boolean",
+      "description": "Flag indicating if actual peak luminance is specified"
+    },
+    "num_bezier_curve_anchors": {
+      "type": "integer",
+      "description": "Number of bezier curve anchor points",
+      "minimum": 0,
+      "maximum": 15
+    },
+    "knee_point_x": {
+      "type": "number",
+      "description": "Knee point X coordinate (0.0 to 1.0)",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "knee_point_y": {
+      "type": "number", 
+      "description": "Knee point Y coordinate (0.0 to 1.0)",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "bezier_curve_anchors": {
+      "type": "array",
+      "description": "Array of bezier curve anchor points",
+      "items": {
+        "type": "object",
+        "required": ["x", "y"],
+        "properties": {
+          "x": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0
+          },
+          "y": {
+            "type": "number", 
+            "minimum": 0.0,
+            "maximum": 1.0
+          }
+        }
+      },
+      "minItems": 0,
+      "maxItems": 15
+    },
+    "mastering_display_actual_peak_luminance_flag": {
+      "type": "boolean",
+      "description": "Flag indicating if mastering display actual peak luminance is specified"
+    },
+    "max_content_light_level": {
+      "type": "integer",
+      "description": "Maximum content light level in nits",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "max_frame_average_light_level": {
+      "type": "integer", 
+      "description": "Maximum frame average light level in nits",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "scene_or_frame": {
+      "type": "array",
+      "description": "Scene or frame-level metadata",
+      "items": {
+        "type": "object",
+        "required": [
+          "targeted_system_display_maximum_luminance",
+          "targeted_system_display_actual_peak_luminance_flag",
+          "num_bezier_curve_anchors",
+          "knee_point_x",
+          "knee_point_y",
+          "bezier_curve_anchors"
+        ],
+        "properties": {
+          "targeted_system_display_maximum_luminance": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "targeted_system_display_actual_peak_luminance_flag": {
+            "type": "boolean"
+          },
+          "num_bezier_curve_anchors": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 15
+          },
+          "knee_point_x": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0
+          },
+          "knee_point_y": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0
+          },
+          "bezier_curve_anchors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["x", "y"],
+              "properties": {
+                "x": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "maximum": 1.0
+                },
+                "y": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "maximum": 1.0
+                }
+              }
+            },
+            "minItems": 0,
+            "maxItems": 15
+          },
+          "luminance_distribution": {
+            "type": "object",
+            "description": "Luminance distribution statistics",
+            "properties": {
+              "percentile_10": {
+                "type": "number",
+                "minimum": 0.0
+              },
+              "percentile_25": {
+                "type": "number", 
+                "minimum": 0.0
+              },
+              "percentile_50": {
+                "type": "number",
+                "minimum": 0.0
+              },
+              "percentile_75": {
+                "type": "number",
+                "minimum": 0.0
+              },
+              "percentile_90": {
+                "type": "number",
+                "minimum": 0.0
+              },
+              "percentile_95": {
+                "type": "number",
+                "minimum": 0.0
+              },
+              "percentile_99": {
+                "type": "number",
+                "minimum": 0.0
+              },
+              "percentile_99_9": {
+                "type": "number",
+                "minimum": 0.0
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
