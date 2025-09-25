@@ -39,6 +39,7 @@ dovi_tool <SUBCOMMAND> --help
 ## All subcommands
 - Metadata utilities: **`info`**, **`generate`**, **`editor`**, **`export`**, **`plot`**
 - HEVC parsing & handling: **`convert`**, **`demux`**, **`mux`**, **`extract-rpu`**, **`inject-rpu`**
+- HDR10+ conversion: **`convert-to-hdr10plus`**
 
 **More information and detailed examples for the subcommands below.**
 
@@ -313,6 +314,51 @@ For working with an HEVC source file, there are multiple options that apply to m
     ```console
     ffmpeg -i input.mkv -c:v copy -bsf:v hevc_mp4toannexb -f hevc - | dovi_tool remove -
     ```
+
+&nbsp;
+
+# **HDR10+ Conversion**
+**`dovi_tool`** now includes a comprehensive Dolby Vision RPU to HDR10+ dynamic metadata converter.
+
+## **convert-to-hdr10plus**
+Converts Dolby Vision RPU data to HDR10+ dynamic metadata JSON conforming to SMPTE ST 2094-40 standards.
+
+**Features**:
+- High precision mode for low-nit content (<1000 nits)
+- Automatic scene detection based on luminance changes
+- Built-in HDR10+ JSON schema validation
+- Support for single or multiple RPU files
+- Configurable target display luminance and peak brightness source
+
+**Flags**:
+- `-i`, `--input` Input RPU file(s) to convert (required)
+- `-o`, `--output` Output HDR10+ JSON file (required)
+- `--target-display-max-luminance` Target system display maximum luminance in nits (0 = use source)
+- `--peak-brightness-source` Peak brightness source for HDR10+ metadata (max, average)
+- `--high-precision-mode` Enable high precision mode for low-nit content
+- `--scene-detection-threshold` Scene detection threshold for grouping frames (0.0-1.0)
+- `--max-scenes` Maximum number of scenes to process (0 = no limit)
+- `--validate-output` Validate output against HDR10+ schema
+- `-v`, `--verbose` Enable verbose output
+
+**Examples**:
+```console
+# Convert single RPU file
+dovi_tool convert-to-hdr10plus -i movie.rpu -o movie_hdr10plus.json
+
+# Convert with high precision mode for low-nit content
+dovi_tool convert-to-hdr10plus -i input.rpu -o output.json --high-precision-mode --verbose
+
+# Convert multiple RPU files with scene detection
+dovi_tool convert-to-hdr10plus -i scene1.rpu scene2.rpu scene3.rpu -o output.json --scene-detection-threshold 0.15
+
+# Set custom target display luminance
+dovi_tool convert-to-hdr10plus -i input.rpu -o output.json --target-display-max-luminance 1000
+```
+
+**Output Format**: Generates HDR10+ JSON metadata with scene information, luminance distributions, and tone mapping parameters optimized for accurate low-nit rendering.
+
+For detailed documentation, see [HDR10+ Converter Documentation](docs/hdr10plus_converter.md).
 
 &nbsp;
 

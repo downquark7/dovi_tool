@@ -3,6 +3,7 @@ use clap::Parser;
 use dolby_vision::rpu::ConversionMode;
 
 mod convert;
+mod convert_to_hdr10plus;
 mod demux;
 mod editor;
 mod export;
@@ -15,6 +16,7 @@ mod plot;
 mod remove;
 
 pub use convert::ConvertArgs;
+pub use convert_to_hdr10plus::ConvertToHdr10PlusArgs;
 pub use demux::DemuxArgs;
 pub use editor::EditorArgs;
 pub use export::{ExportArgs, ExportData};
@@ -30,6 +32,9 @@ pub use remove::RemoveArgs;
 pub enum Commands {
     #[command(about = "Converts RPU within a single layer HEVC file")]
     Convert(ConvertArgs),
+
+    #[command(about = "Converts Dolby Vision RPU to HDR10+ dynamic metadata JSON")]
+    ConvertToHdr10Plus(ConvertToHdr10PlusArgs),
 
     #[command(
         about = "Demuxes single track dual layer Dolby Vision into Base layer and Enhancement layer files"
